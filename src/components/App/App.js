@@ -16,22 +16,26 @@ export default class App extends Component {
         this.state = {
             todoList: data.map((item) => {
                 return this.onItemCreate(item);
-            })
+            }),
+            searchValue: ''
         };
     }
 
     render() {
         const {imageUrl} = this.props;
+        const {todoList, searchValue} = this.state;
         const style = {backgroundImage: `url(${imageUrl})` };
-        const visibleItems = this.state.todoList;
+        const visibleItems = this.onSearch(todoList, searchValue);
         return (
             <div className="main-container main-container--dark-bg" style = {style}>
                 <div className="container container--custom">
                     <Header text="Welcome to my TodoList App" />
-                    <Navigation />
+                    <Navigation
+                        onSearchChange={this.onSearchChange} />
                     <List 
                         data={visibleItems}
-                        onToggleImportant={this.onToggleImportant}
+                        onToggleImportant={(id) => this.onToggle(id, 'important')}
+                        onToggleDone={(id) => this.onToggle(id, 'done')}
                         onItemDelete={this.onItemDelete} />
                     <AddItem 
                         onItemAdd={(this.onItemAddFromForm)} />
@@ -49,12 +53,23 @@ export default class App extends Component {
         };
     }
 
-    onToggleImportant = (id) => {
+    onSearchChange = (e) => {
+        this.setState({
+            searchValue: e.target.value
+        });
+    }
+
+    onSearch = (items, searchValue) => {
+        if( searchValue.length === 0 ) return items;
+        return items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()) !== false );
+    }
+
+    onToggle = (id, nameProperty) => {
         this.setState(({todoList}) => {
             const idx = todoList.findIndex((el) => el.id === id);
             const newTodoList = todoList.map((item, i) => {
                 if( i === idx ) {
-                    item.important = !item.important;
+                    item[nameProperty] = !item[nameProperty];
                 }
                 return item;
             })

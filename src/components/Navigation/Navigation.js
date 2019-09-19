@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Search from '../Search/Search';
 import Filter from '../Filter/Filter';
 
-const Navigation = () => {
+const Navigation = ({onSearchChange}) => {
     return(
         <div className="navigation-panel d-flex">
-            <Search />
+            <Search onSeachChange={onSearchChange} />
             <Filter />
         </div>
     );

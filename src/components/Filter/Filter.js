@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Filter = () => {
-    return(
-        <div className="btn-group mb-3">
-            <button className="btn btn-dark active">All</button>
-            <button className="btn btn-dark">Actually</button>
-            <button className="btn btn-dark">Done</button>
-        </div>
-    );
-};
+export default class Filter extends Component {
+    render() {
+        return(
+            <div className="btn-group mb-3">
+                <button className="btn btn-dark active" onClick={this.onChangeFilter}>All</button>
+                <button className="btn btn-dark" onClick={this.onChangeFilter}>Active</button>
+                <button className="btn btn-dark" onClick={this.onChangeFilter}>Done</button>
+            </div>
+        );
+    }
 
-export default Filter;
+    onChangeFilter = (e) => {
+        console.log(e.target.innerText)
+    }
+
+}

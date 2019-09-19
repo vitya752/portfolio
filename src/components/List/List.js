@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import ItemList from '../ItemList/ItemList';
 import './List.css';
 
-const List = ({ data, onToggleImportant, onItemDelete }) => {
+const List = ({ data, onToggleImportant, onToggleDone, onItemDelete }) => {
 
     const dataList = data.map((item) => {
         return <ItemList 
@@ -11,6 +11,7 @@ const List = ({ data, onToggleImportant, onItemDelete }) => {
                     data={item.text}
                     important={item.important}
                     onToggleImportant={() => onToggleImportant(item.id)}
+                    onToggleDone={() => onToggleDone(item.id)}
                     onItemDelete={() => onItemDelete(item.id)} />;
     });
 

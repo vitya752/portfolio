@@ -7,7 +7,7 @@ import { faTrash, faExclamation, faCheckSquare } from '@fortawesome/free-solid-s
 class ItemList extends Component {
 
     render() {
-        const { data, important, onToggleImportant, onItemDelete } = this.props;
+        const { data, important, onToggleImportant, onToggleDone, onItemDelete } = this.props;
         const importantItem = important ? 'active' : null;
         return(
             <li
@@ -23,7 +23,7 @@ class ItemList extends Component {
                     <button
                         type="button"
                         className="btn btn-success"
-                        onClick={onToggleImportant} >
+                        onClick={onToggleDone} >
                         <FontAwesomeIcon icon={faCheckSquare} />
                     </button>
                     <button 
