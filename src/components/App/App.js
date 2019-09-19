@@ -11,16 +11,14 @@ export default class App extends Component {
 
     maxId = 100;
 
-    state = {
-        todoList: data.map((item) => {
-            return {
-                id: this.maxId++,
-                text: item,
-                important: false,
-                done: false
-            }
-        })
-    };
+    constructor() {
+        super();
+        this.state = {
+            todoList: data.map((item) => {
+                return this.onItemCreate(item);
+            })
+        };
+    }
 
     render() {
         const {imageUrl} = this.props;
@@ -35,16 +33,21 @@ export default class App extends Component {
                         data={visibleItems}
                         onToggleImportant={this.onToggleImportant}
                         onItemDelete={this.onItemDelete} />
-                    <AddItem addNewItem={this.addNewItem} />
+                    <AddItem 
+                        onItemAdd={(this.onItemAddFromForm)} />
                 </div>
             </div>
         );
     }
 
-    addNewItem = (event) => {
-        console.log(event);
-        event.preventDefault();
-    };
+    onItemCreate = (text) => {
+        return{
+            id: this.maxId++,
+            text: text,
+            important: false,
+            done: false
+        };
+    }
 
     onToggleImportant = (id) => {
         this.setState(({todoList}) => {
@@ -69,7 +72,16 @@ export default class App extends Component {
                 todoList: newTodoList
             }
         });
+    }
 
+    onItemAddFromForm = (text) => {
+        this.setState(({todoList}) => {
+            const newItem = this.onItemCreate(text);
+            const newTodoList = [...this.state.todoList, newItem];
+            return{
+                todoList: newTodoList
+            }
+        });
     }
 
 }
