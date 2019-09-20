@@ -1,19 +1,30 @@
-import React, {Component} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default class Filter extends Component {
-    render() {
+const filterButtons = [
+    { name: 'all', label: 'All' },
+    { name: 'active', label: 'Active' },
+    { name: 'done', label: 'Done' }
+];
+
+const Filter = ({ filter, onFilterChange}) => {
+    const buttons = filterButtons.map(({name, label}) => {
+        const isActive = filter === name;
+        const classes = 'btn btn-dark' + (isActive ? ' active' : '');
         return(
-            <div className="btn-group mb-3">
-                <button className="btn btn-dark active" onClick={this.onChangeFilter}>All</button>
-                <button className="btn btn-dark" onClick={this.onChangeFilter}>Active</button>
-                <button className="btn btn-dark" onClick={this.onChangeFilter}>Done</button>
-            </div>
+            <button 
+                key={name}
+                className={classes}
+                onClick={() => onFilterChange(name)}>
+                {label}
+            </button>
         );
-    }
+    });
+    return(
+        <div className="btn-group mb-3">
+            {buttons}
+        </div>
+    );
+};
 
-    onChangeFilter = (e) => {
-        console.log(e.target.innerText)
-    }
-
-}
+export default Filter;

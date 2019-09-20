@@ -1,50 +1,40 @@
-import React, {Component} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './ItemList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faExclamation, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
-class ItemList extends Component {
+const ItemList = ({ data, important, done, onToggleImportant, onToggleDone, onItemDelete }) => {
 
-    render() {
-        const { data, important, onToggleImportant, onToggleDone, onItemDelete } = this.props;
-        const importantItem = important ? 'active' : null;
-        return(
-            <li
-                className={`list-group-item list-group-item--custom ${importantItem}`} >
-                { data }
-                <div className="float-right buttons-wrap">
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={onToggleImportant} >
-                        <FontAwesomeIcon icon={faExclamation} />
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-success"
-                        onClick={onToggleDone} >
-                        <FontAwesomeIcon icon={faCheckSquare} />
-                    </button>
-                    <button 
-                        className="btn btn-danger" 
-                        type="button"
-                        onClick={onItemDelete} >
-                        <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                </div>
-            </li>
-        );
-    }
+    const importantItem = important ? 'active' : null;
+    const doneItem = done ? 'doneItem' : null;
 
-    // onToggleImportant() {
-    //     let { important } = this.state;
-    //     let stateImportant = important ? false : true;
-    //     this.setState({
-    //         important: stateImportant
-    //     });
-    // }
-
+    return(
+        <li
+            className={`list-group-item list-group-item--custom ${importantItem} ${doneItem}`} >
+            { data }
+            <div className="float-right buttons-wrap">
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={onToggleImportant} >
+                    <FontAwesomeIcon icon={faExclamation} />
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-success btn-done"
+                    onClick={onToggleDone} >
+                    <FontAwesomeIcon icon={faCheckSquare} />
+                </button>
+                <button 
+                    className="btn btn-danger" 
+                    type="button"
+                    onClick={onItemDelete} >
+                    <FontAwesomeIcon icon={faTrash} />
+                </button>
+            </div>
+        </li>
+    );
 }
 
 export default ItemList;

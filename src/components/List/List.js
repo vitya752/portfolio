@@ -10,6 +10,7 @@ const List = ({ data, onToggleImportant, onToggleDone, onItemDelete }) => {
                     key={item.id} 
                     data={item.text}
                     important={item.important}
+                    done={item.done}
                     onToggleImportant={() => onToggleImportant(item.id)}
                     onToggleDone={() => onToggleDone(item.id)}
                     onItemDelete={() => onItemDelete(item.id)} />;

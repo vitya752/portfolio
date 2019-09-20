@@ -17,21 +17,24 @@ export default class App extends Component {
             todoList: data.map((item) => {
                 return this.onItemCreate(item);
             }),
-            searchValue: ''
+            searchValue: '',
+            filter: 'active'
         };
     }
 
     render() {
         const {imageUrl} = this.props;
-        const {todoList, searchValue} = this.state;
+        const {todoList, searchValue, filter} = this.state;
         const style = {backgroundImage: `url(${imageUrl})` };
-        const visibleItems = this.onSearch(todoList, searchValue);
+        const visibleItems = this.onSearch(this.onFilter(todoList, filter), searchValue);
         return (
             <div className="main-container main-container--dark-bg" style = {style}>
                 <div className="container container--custom">
                     <Header text="Welcome to my TodoList App" />
                     <Navigation
-                        onSearchChange={this.onSearchChange} />
+                        onSearchChange={this.onSearchChange}
+                        filter={this.state.filter}
+                        onFilterChange={this.onFilterChange} />
                     <List 
                         data={visibleItems}
                         onToggleImportant={(id) => this.onToggle(id, 'important')}
@@ -62,6 +65,25 @@ export default class App extends Component {
     onSearch = (items, searchValue) => {
         if( searchValue.length === 0 ) return items;
         return items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()) !== false );
+    }
+
+    onFilterChange = (name) => {
+        this.setState({
+            filter: name
+        });
+    }
+
+    onFilter = (todoList, filter) => {
+        switch(filter) {
+            case 'all':
+                return todoList;
+            case 'active':
+                return todoList.filter(({ done }) => done !== true);
+            case 'done':
+                return todoList.filter(({ done }) => done === true);
+            default:
+                break;
+        }
     }
 
     onToggle = (id, nameProperty) => {
