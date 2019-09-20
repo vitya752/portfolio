@@ -16,7 +16,8 @@ export default class AddItem extends Component {
                         e.preventDefault();
                         onItemAdd(this.state.inputValue);
                         this.setState({
-                            inputValue: ''
+                            inputValue: '',
+                            disableSubmit: true
                         });
                     }}>
                 <div className="input-group mb-3">
